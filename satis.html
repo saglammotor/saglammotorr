@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motosiklet Nakit Alım | Sağlam Motor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { 
+            background-image: linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0.9)), url('https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=2070');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding-top: 50px; 
+            padding-bottom: 50px; 
+            color: #fff; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        }
+        .form-container { 
+            background: rgba(255, 255, 255, 0.95); 
+            color: #333; 
+            padding: 40px; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8); 
+        }
+        .header-title { color: #e63946; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
+        .btn-send { background-color: #e63946; border: none; color: white; font-weight: bold; padding: 12px; transition: 0.3s; }
+        .btn-send:hover { background-color: #c1121f; transform: translateY(-2px); color: white; }
+        
+        .btn-back { background-color: #333; color: white; font-weight: bold; border: none; transition: 0.3s; }
+        .btn-back:hover { background-color: #111; color: white; transform: translateX(-3px); }
+        
+        hr { border-top: 2px solid #eee; margin: 25px 0; }
+        label { font-weight: 600; font-size: 0.9rem; }
+        
+        /* EVET/HAYIR KUTUSU TASARIMI */
+        .status-box { background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 10px; padding: 20px; }
+        .form-check-label { font-weight: 500; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 form-container position-relative">
+            
+            <a href="index.html" class="btn btn-back btn-sm position-absolute top-0 start-0 m-3 shadow-sm py-2 px-3 rounded-pill">
+                <i class="fa-solid fa-arrow-left"></i> Ana Sayfa
+            </a>
+
+            <div class="text-center mb-4 mt-4">
+                <h1 class="header-title">SAĞLAM MOTOR</h1>
+                <h4 class="fw-bold text-dark">Hızlı Motosiklet Satış Formu</h4>
+                <p class="text-muted">Motorunuzun bilgilerini gönderin, anında fiyat verelim.</p>
+            </div>
+            
+            <form id="motorFormu">
+                <input type="hidden" name="_subject" value="YENİ MOTOR SATIŞ TALEBİ! 🏍️">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_captcha" value="false">
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Ad Soyad</label>
+                        <input type="text" name="Ad_Soyad" class="form-control shadow-sm" placeholder="Örn: Sağlam Motor" oninput="kelimeIlkHarfBuyuk(this)" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Telefon Numarası</label>
+                        <input type="tel" name="Telefon" id="telInput" class="form-control shadow-sm" placeholder="05xx xxx xx xx" oninput="telefonFormatla(this, event)" required>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="mb-3">
+                    <label class="form-label">Motor Marka / Model</label>
+                    <input type="text" name="Motor_Marka_Model" class="form-control shadow-sm" placeholder="Örn: Honda Forza 250" oninput="kelimeIlkHarfBuyuk(this)" required>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Trafiğe Çıkış (Tescil) Tarihi</label>
+                        <input type="date" name="Tescil_Tarihi" class="form-control shadow-sm" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Kilometre</label>
+                        <input type="text" name="Kilometre" inputmode="numeric" class="form-control shadow-sm" placeholder="Örn: 5.000" oninput="kilometreFormatla(this)" required>
+                    </div>
+                </div>
+
+                <div class="status-box mb-3 shadow-sm">
+                    <div class="mb-3">
+                        <label class="form-label d-block text-dark border-bottom pb-1 mb-2"><i class="fa-solid fa-car-burst text-danger"></i> Motorunuzun Tramer - hasar kaydı var mı?</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="Tramer_Durumu" id="tramerEvet" value="Evet, hasar kaydı var" required>
+                            <label class="form-check-label text-dark" for="tramerEvet">Evet, var</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="Tramer_Durumu" id="tramerHayir" value="Hayır, hasar kaydı yok" required>
+                            <label class="form-check-label text-dark" for="tramerHayir">Hayır, yok</label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label d-block text-dark border-bottom pb-1 mb-2"><i class="fa-solid fa-wrench text-secondary"></i> Motorunuz yetkili servis bakımlı mı?</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="Yetkili_Servis" id="servisEvet" value="Evet, yetkili servis bakımlı" required>
+                            <label class="form-check-label text-dark" for="servisEvet">Evet</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="Yetkili_Servis" id="servisHayir" value="Hayır, yetkili servis bakımlı değil" required>
+                            <label class="form-check-label text-dark" for="servisHayir">Hayır</label>
+                        </div>
+                    </div>
+
+                    <div class="mb-0">
+                        <label class="form-label d-block text-dark border-bottom pb-1 mb-2"><i class="fa-solid fa-shield-check text-success"></i> Motorunuzun garantisi devam ediyor mu?</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="Garanti_Durumu" id="garantiEvet" value="Evet, garantisi devam ediyor" required>
+                            <label class="form-check-label text-dark" for="garantiEvet">Evet</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="Garanti_Durumu" id="garantiHayir" value="Hayır, garantisi bitti" required>
+                            <label class="form-check-label text-dark" for="garantiHayir">Hayır</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Motor Hakkında Genel Detaylar</label>
+                    <textarea class="form-control shadow-sm" name="Genel_Detaylar" rows="3" placeholder="Motorunuzun ekstraları, aksesuarları veya belirtmek istediğiniz diğer detaylar..." oninput="cumleIlkHarfBuyuk(this)" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Düşündüğünüz Fiyat</label>
+                    <input type="text" name="Istenen_Fiyat" class="form-control shadow-sm fw-bold text-dark" placeholder="Örn: 245.000 ₺" oninput="fiyatFormatla(this)" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Motor Görselleri</label>
+                    <input type="file" name="attachment" id="gorseller" class="form-control shadow-sm" multiple accept="image/*" onchange="resimOnizleme(this)">
+                    <small class="text-muted d-block mt-1">Ön, arka ve yanlardan <strong>en az 1, en fazla 25 fotoğraf</strong> ekleyebilirsiniz.</small>
+                    <div id="previewContainer" class="d-flex flex-wrap mt-3 gap-3"></div>
+                </div>
+
+                <div id="uyariKutusu" class="alert alert-warning d-none text-center fw-bold shadow-sm" role="alert"></div>
+
+                <button type="submit" id="gonderButonu" class="btn btn-send w-100 shadow fs-5">TEKLİF AL / FORMU GÖNDER</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --------------------------------------------------------
+    // AKILLI RESİM ÖNİZLEME (LİMİTLİ VE ÇİFT KAYIT ENGELLİ)
+    // --------------------------------------------------------
+    let secilenDosyalar = new DataTransfer();
+    const MAX_GORSEL = 25; 
+
+    function resimOnizleme(input) {
+        let mevcutDosyalar = Array.from(secilenDosyalar.files);
+
+        for (let i = 0; i < input.files.length; i++) {
+            let yeniDosya = input.files[i];
+
+            if (secilenDosyalar.items.length >= MAX_GORSEL) {
+                alert(`Kral yavaş, en fazla ${MAX_GORSEL} görsel yükleyebilirsin!`);
+                break; 
+            }
+
+            let zatenVarMi = mevcutDosyalar.some(dosya => 
+                dosya.name === yeniDosya.name && dosya.size === yeniDosya.size
+            );
+
+            if (zatenVarMi) {
+                alert(`"${yeniDosya.name}" zaten eklendi. Aynı görseli iki kere atamazsın!`);
+                continue; 
+            }
+
+            secilenDosyalar.items.add(yeniDosya);
+            mevcutDosyalar.push(yeniDosya); 
+        }
+        
+        input.files = secilenDosyalar.files;
+        gorselleriEkranaCiz();
+    }
+
+    function gorselleriEkranaCiz() {
+        const previewContainer = document.getElementById('previewContainer');
+        previewContainer.innerHTML = ''; 
+        
+        Array.from(secilenDosyalar.files).forEach((file, index) => {
+            const div = document.createElement('div');
+            div.className = 'position-relative';
+            div.style.width = '80px';
+            div.style.height = '80px';
+            
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            img.className = 'img-thumbnail w-100 h-100 object-fit-cover shadow-sm';
+            
+            const btn = document.createElement('button');
+            btn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+            btn.className = 'btn btn-danger btn-sm position-absolute rounded-circle shadow';
+            btn.style.top = '-8px';
+            btn.style.right = '-8px';
+            btn.style.width = '24px';
+            btn.style.height = '24px';
+            btn.style.padding = '0';
+            btn.style.display = 'flex';
+            btn.style.alignItems = 'center';
+            btn.style.justifyContent = 'center';
+            btn.onclick = (e) => {
+                e.preventDefault(); 
+                resimSil(index);
+            };
+            
+            div.appendChild(img);
+            div.appendChild(btn);
+            previewContainer.appendChild(div);
+        });
+    }
+
+    function resimSil(index) {
+        const dt = new DataTransfer();
+        const dosyalar = secilenDosyalar.files;
+        for (let i = 0; i < dosyalar.length; i++) {
+            if (i !== index) dt.items.add(dosyalar[i]);
+        }
+        secilenDosyalar = dt;
+        document.getElementById('gorseller').files = secilenDosyalar.files;
+        gorselleriEkranaCiz();
+    }
+
+    // --------------------------------------------------------
+    // MAİLE GÖNDERME İŞLEMİ VE KONTROLLER (AJAX & FORMSUBMIT)
+    // --------------------------------------------------------
+    document.getElementById('motorFormu').addEventListener('submit', function(e) {
+        e.preventDefault(); 
+        let uyariKutusu = document.getElementById('uyariKutusu');
+        let gonderButonu = document.getElementById('gonderButonu');
+        
+        // FOTOĞRAF KONTROLÜ
+        if (secilenDosyalar.items.length === 0) {
+            uyariKutusu.innerHTML = '📸 <strong>Eksik Evrak!</strong> Kral, motorun en az 1 tane fotoğrafını eklemen lazım ki ustalarımız bir baksın.';
+            uyariKutusu.classList.remove('d-none', 'alert-success');
+            uyariKutusu.classList.add('alert-warning');
+            document.getElementById('gorseller').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return; 
+        }
+        
+        // SPAM KONTROLÜ VE KALAN SÜRE HESAPLAMA
+        let telNo = document.getElementById('telInput').value.replace(/\D/g, '');
+        let sonGonderimZamani = localStorage.getItem('saglamMotor_sonGonderim_' + telNo);
+        let suAnkiZaman = new Date().getTime();
+        let yirmiDortSaatMs = 24 * 60 * 60 * 1000;
+        
+        if (sonGonderimZamani) {
+            let gecenSureMs = suAnkiZaman - parseInt(sonGonderimZamani);
+            if (gecenSureMs < yirmiDortSaatMs) {
+                let kalanSureMs = yirmiDortSaatMs - gecenSureMs;
+                let kalanSaat = Math.floor(kalanSureMs / (1000 * 60 * 60));
+                let kalanDakika = Math.floor((kalanSureMs % (1000 * 60 * 60)) / (1000 * 60));
+                let kalanMetin = "";
+                if(kalanSaat > 0) kalanMetin += kalanSaat + " saat ";
+                kalanMetin += kalanDakika + " dakika";
+
+                uyariKutusu.innerHTML = `🏍️ <strong>Kral yavaş, pistonları erittin!</strong> 😅<br><br>Kısa süre önce bir teklif aldın. Yeni bir form göndermek için motorun 24 saat <strong>(Kalan süre: ${kalanMetin})</strong> soğumasını beklemelisin.`;
+                uyariKutusu.classList.remove('d-none', 'alert-success');
+                uyariKutusu.classList.add('alert-warning');
+                uyariKutusu.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return; 
+            }
+        }
+        
+        // GÖNDERİM BAŞLIYOR EKRANI
+        gonderButonu.disabled = true;
+        gonderButonu.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> GÖNDERİLİYOR...';
+        uyariKutusu.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Bilgiler ve fotoğraflar Sağlam Motor ekibine iletiliyor... Lütfen sayfadan ayrılmayın.';
+        uyariKutusu.classList.remove('d-none', 'alert-warning', 'alert-danger');
+        uyariKutusu.classList.add('alert-info'); // Mavi bilgi rengi
+
+        // FORM VERİLERİNİ TOPLAMA
+        let formData = new FormData(this);
+
+        // FORMSUBMIT AJAX İSTEĞİ
+        fetch("https://formsubmit.co/ajax/yakupsaglam47@gmail.com", {
+            method: "POST",
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                // BAŞARILI DURUM
+                localStorage.setItem('saglamMotor_sonGonderim_' + telNo, suAnkiZaman.toString());
+                uyariKutusu.innerHTML = '<i class="fa-solid fa-circle-check"></i> Harika! Formun ve görsellerin başarıyla Sağlam Motor ekibine iletildi. En kısa sürede dönüş yapacağız.';
+                uyariKutusu.classList.replace('alert-info', 'alert-success');
+                gonderButonu.innerHTML = '<i class="fa-solid fa-check"></i> İLETİLDİ';
+                document.getElementById('motorFormu').reset(); // Formu temizle
+                resimSilTumunu(); // Resimleri temizle
+            } else {
+                throw new Error("Sunucu hatası");
+            }
+        })
+        .catch(error => {
+            // HATA DURUMU
+            uyariKutusu.innerHTML = '❌ <strong>Eyvah!</strong> Bir bağlantı sorunu oluştu, mesajınız gönderilemedi. Lütfen internetinizi kontrol edip tekrar deneyin veya bizi direkt arayın.';
+            uyariKutusu.classList.replace('alert-info', 'alert-danger');
+            gonderButonu.disabled = false;
+            gonderButonu.innerHTML = 'TEKLİF AL / FORMU GÖNDER';
+        });
+    });
+
+    // Gönderimden sonra resim önizlemeyi sıfırlamak için
+    function resimSilTumunu() {
+        secilenDosyalar = new DataTransfer();
+        document.getElementById('gorseller').files = secilenDosyalar.files;
+        document.getElementById('previewContainer').innerHTML = '';
+    }
+
+    // --------------------------------------------------------
+    // FORMATLAMA FONKSİYONLARI
+    // --------------------------------------------------------
+    function kelimeIlkHarfBuyuk(input) {
+        let baslangic = input.selectionStart;
+        let kelimeler = input.value.split(' ');
+        for (let i = 0; i < kelimeler.length; i++) {
+            if (kelimeler[i].length > 0) {
+                kelimeler[i] = kelimeler[i].charAt(0).toLocaleUpperCase('tr-TR') + kelimeler[i].slice(1);
+            }
+        }
+        input.value = kelimeler.join(' ');
+        input.setSelectionRange(baslangic, baslangic);
+    }
+
+    function cumleIlkHarfBuyuk(input) {
+        let baslangic = input.selectionStart;
+        let metin = input.value;
+        if (metin.length > 0) {
+            metin = metin.charAt(0).toLocaleUpperCase('tr-TR') + metin.slice(1);
+            metin = metin.replace(/([.?!]\s+)([^ \n\r\t])/g, function(match, noktalamaVeBosluk, harf) {
+                return noktalamaVeBosluk + harf.toLocaleUpperCase('tr-TR');
+            });
+        }
+        input.value = metin;
+        input.setSelectionRange(baslangic, baslangic);
+    }
+
+    function telefonFormatla(input, e) {
+        if (e && e.inputType === 'deleteContentBackward') return;
+        let rakamlar = input.value.replace(/\D/g, '');
+        let formatli = '';
+        if (rakamlar.startsWith('0')) {
+            rakamlar = rakamlar.substring(0, 11);
+            if (rakamlar.length <= 4) formatli = rakamlar;
+            else if (rakamlar.length <= 7) formatli = rakamlar.substring(0, 4) + ' ' + rakamlar.substring(4);
+            else if (rakamlar.length <= 9) formatli = rakamlar.substring(0, 4) + ' ' + rakamlar.substring(4, 7) + ' ' + rakamlar.substring(7);
+            else formatli = rakamlar.substring(0, 4) + ' ' + rakamlar.substring(4, 7) + ' ' + rakamlar.substring(7, 9) + ' ' + rakamlar.substring(9, 11);
+        } else if (rakamlar.length > 0) {
+            rakamlar = rakamlar.substring(0, 10);
+            if (rakamlar.length <= 3) formatli = rakamlar;
+            else if (rakamlar.length <= 6) formatli = rakamlar.substring(0, 3) + ' ' + rakamlar.substring(3);
+            else if (rakamlar.length <= 8) formatli = rakamlar.substring(0, 3) + ' ' + rakamlar.substring(3, 6) + ' ' + rakamlar.substring(6);
+            else formatli = rakamlar.substring(0, 3) + ' ' + rakamlar.substring(3, 6) + ' ' + rakamlar.substring(6, 8) + ' ' + rakamlar.substring(8, 10);
+        }
+        input.value = formatli;
+    }
+
+    function kilometreFormatla(input) {
+        let baslangic = input.selectionStart;
+        let eskiUzunluk = input.value.length;
+        let rakamlar = input.value.replace(/\D/g, '');
+        if (rakamlar === '') {
+            input.value = '';
+            return;
+        }
+        let formatliSayi = new Intl.NumberFormat('tr-TR').format(rakamlar);
+        input.value = formatliSayi;
+        
+        let yeniUzunluk = input.value.length;
+        let fark = yeniUzunluk - eskiUzunluk;
+        let yeniImlecYeri = baslangic + fark;
+        if (yeniImlecYeri > formatliSayi.length) yeniImlecYeri = formatliSayi.length;
+        input.setSelectionRange(yeniImlecYeri, yeniImlecYeri);
+    }
+
+    function fiyatFormatla(input) {
+        let baslangic = input.selectionStart;
+        let eskiUzunluk = input.value.length;
+        let rakamlar = input.value.replace(/\D/g, '');
+        if (rakamlar === '') {
+            input.value = '';
+            return;
+        }
+        let formatliSayi = new Intl.NumberFormat('tr-TR').format(rakamlar);
+        input.value = formatliSayi + ' ₺';
+        let yeniUzunluk = input.value.length;
+        let fark = yeniUzunluk - eskiUzunluk;
+        let yeniImlecYeri = baslangic + fark;
+        if (yeniImlecYeri > formatliSayi.length) yeniImlecYeri = formatliSayi.length;
+        input.setSelectionRange(yeniImlecYeri, yeniImlecYeri);
+    }
+</script>
+
+</body>
+</html>
