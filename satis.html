@@ -19,7 +19,6 @@
         h2 { font-family: 'Oswald', sans-serif; color: var(--primary); font-size: 35px; text-align: center; margin-bottom: 30px; text-transform: uppercase; font-weight: 900; }
         label { font-weight: 900; color: #fff; margin-bottom: 10px; display: block; font-size: 15px; text-transform: uppercase; }
         
-        /* Fiyat Girişi İçin Özel Stil */
         .fiyat-input-wrapper { position: relative; display: flex; align-items: center; }
         .fiyat-input-wrapper input { padding-right: 45px !important; }
         .fiyat-input-wrapper .tl-symbol { position: absolute; right: 15px; top: 18px; font-size: 20px; font-weight: 900; color: var(--primary); pointer-events: none; }
@@ -35,7 +34,19 @@
         
         .btn-submit { background: var(--primary); color: #000; padding: 22px; border: none; border-radius: 12px; font-size: 24px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.3s; text-transform: uppercase; }
         .btn-submit:hover { transform: scale(1.03); background: #fff; box-shadow: 0 0 20px var(--primary); }
-        .preview-img { width: 90px; height: 90px; object-fit: cover; border-radius: 12px; border: 3px solid var(--primary); margin: 5px; }
+        
+        /* FOTOĞRAF SİLME İÇİN GEREKLİ ALANLAR */
+        .preview-wrapper { position: relative; display: inline-block; margin: 5px; }
+        .preview-img { width: 90px; height: 90px; object-fit: cover; border-radius: 12px; border: 3px solid var(--primary); }
+        .remove-img-btn {
+            position: absolute; top: -5px; right: -5px;
+            background: var(--secondary); color: white;
+            border: none; border-radius: 50%; width: 24px; height: 24px;
+            font-size: 14px; font-weight: 900; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5); z-index: 10;
+        }
+        
         .back-link { color: var(--primary); text-decoration: none; font-weight: 900; display: inline-block; margin-bottom: 25px; }
     </style>
 </head>
@@ -102,11 +113,50 @@
 
 <script>
     let dt = new DataTransfer();
+
     function pv(i) {
-        for (let f of i.files) { if (dt.items.length < 25) dt.items.add(f); }
+        // Yeni seçilen dosyaları listeye ekle
+        for (let f of i.files) { 
+            if (dt.items.length < 25) dt.items.add(f); 
+        }
         i.files = dt.files;
-        const c = document.getElementById('pvContainer'); c.innerHTML = '';
-        Array.from(dt.files).forEach(f => { const img = document.createElement('img'); img.src = URL.createObjectURL(f); img.className = 'preview-img'; c.appendChild(img); });
+        renderPreviews();
+    }
+
+    function renderPreviews() {
+        const c = document.getElementById('pvContainer');
+        const input = document.getElementById('gorseller');
+        c.innerHTML = '';
+        
+        Array.from(dt.files).forEach((f, index) => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'preview-wrapper';
+            
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(f);
+            img.className = 'preview-img';
+            
+            const removeBtn = document.createElement('button');
+            removeBtn.innerHTML = 'X';
+            removeBtn.className = 'remove-img-btn';
+            removeBtn.type = 'button';
+            removeBtn.onclick = () => removeImage(index);
+            
+            wrapper.appendChild(img);
+            wrapper.appendChild(removeBtn);
+            c.appendChild(wrapper);
+        });
+        input.files = dt.files;
+    }
+
+    function removeImage(index) {
+        const newDt = new DataTransfer();
+        const { files } = dt;
+        for (let i = 0; i < files.length; i++) {
+            if (i !== index) newDt.items.add(files[i]);
+        }
+        dt = newDt;
+        renderPreviews();
     }
 
     function formuTemizle() {
@@ -140,7 +190,6 @@
         i.value = f;
     }
 
-    // FİYAT DÜZENLEMESİ: Rakam silerken takılma engellendi
     function ff(i) {
         let v = i.value.replace(/\D/g, "");
         i.value = v === "" ? "" : new Intl.NumberFormat('tr-TR').format(v);
