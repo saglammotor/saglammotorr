@@ -3,421 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sağlam Motor | Bayrampaşa</title>
+    <title>SAĞLAM MOTOR | Bayrampaşa</title>
+    
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1622185135505-2d795003994a?q=80&w=1600">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@700;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        body {
-            background-color: #121212;
-            color: #fff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-image: linear-gradient(rgba(18, 18, 18, 0.85), rgba(18, 18, 18, 0.95)), url('https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=2070');
+        :root { --primary: #f5b002; --secondary: #e31e24; --bg: #000000; --card-bg: #1a1a1a; }
+        body { margin: 0; padding: 0; font-family: 'Roboto', sans-serif; background-color: var(--bg); color: #fff; scroll-behavior: smooth; overflow-x: hidden; }
+        
+        .navbar { background: #000; border-bottom: 2px solid #222; padding: 15px 0; z-index: 1000; position: relative; }
+        .logo { font-family: 'Oswald', sans-serif; font-size: 32px; color: #fff; text-transform: uppercase; text-decoration: none; font-weight: 900; }
+        .logo span { color: var(--secondary); }
+
+        .hero-slider {
+            height: 75vh;
+            position: relative;
+            background-color: #000;
+            display: flex; align-items: center; justify-content: center; text-align: center;
+        }
+        
+        .slide-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        
+        .slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
-            margin: 0;
-            padding: 0;
-        }
-        
-        /* ORTALAMA KODU BURAYA ALINDI (MODALLARI BOZMASIN DİYE) */
-        .main-wrapper {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 3rem 0;
+            opacity: 0;
+            z-index: 1;
+            transition: opacity 0.5s ease-in-out; 
         }
 
-        .logo-title { color: #e63946; font-weight: 900; font-size: 3.5rem; letter-spacing: 3px; text-shadow: 2px 2px 10px rgba(0,0,0,1); }
-        .menu-box {
-            background: rgba(30, 30, 30, 0.7);
-            backdrop-filter: blur(5px);
-            border: 2px solid rgba(230, 57, 70, 0.3);
-            border-radius: 20px;
-            padding: 40px 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-decoration: none;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        .slide.active { opacity: 1 !important; z-index: 10; }
+
+        .hero-content { position: relative; z-index: 100; padding: 20px; pointer-events: none; max-width: 900px; }
+        .hero-content h1 { 
+            font-family: 'Oswald', sans-serif; 
+            font-size: clamp(40px, 8vw, 85px); 
+            font-weight: 900; 
+            line-height: 1.1; 
+            text-shadow: 2px 2px 20px rgba(0,0,0,0.8);
+            margin-bottom: 15px;
         }
-        .menu-box:hover {
-            transform: translateY(-10px);
-            background: rgba(230, 57, 70, 0.9);
-            border-color: #e63946;
-            color: white;
-            box-shadow: 0 15px 30px rgba(230, 57, 70, 0.4);
-        }
-        .menu-icon { font-size: 3.5rem; margin-bottom: 15px; }
-        .menu-text { font-size: 1.3rem; font-weight: bold; }
-        .modal-content { background-color: #1a1a1a; color: white; border: 1px solid #444; border-radius: 20px; }
-        .btn-red { background-color: #e63946; color: white; font-weight: bold; border-radius: 12px; transition: 0.3s; }
-        .btn-red:hover { background-color: #c1121f; transform: scale(1.02); color: white; }
-        .btn-outline-custom { border: 2px solid #e63946; color: white; font-weight: bold; border-radius: 12px; transition: 0.3s; }
-        .btn-outline-custom:hover { background-color: #e63946; color: white; }
-        .contact-action-box { background: rgba(25, 135, 84, 0.1); border: 1px solid #198754; border-radius: 12px; padding: 15px; }
-        
-        .fis-ekrani {
-            background-color: #ffffff !important;
-            color: #000000 !important;
-            border: 3px dashed #333 !important;
-            border-radius: 10px;
+        .hero-content span { color: var(--primary); }
+        .hero-content p {
+            font-size: clamp(16px, 3vw, 24px);
+            font-weight: 700;
+            line-height: 1.4;
+            color: #fff;
+            background: rgba(0,0,0,0.5);
             padding: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        }
-        .fis-yazi { font-weight: 900; font-size: 1.1rem; }
-        .fis-ekrani span { color: #e63946 !important; font-weight: 900; font-size: 1.4rem; }
-
-        .contact-row {
-            display: flex;
-            align-items: stretch;
-            background-color: #212529;
-            border: 1px solid #495057;
             border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 10px;
+            border-left: 5px solid var(--primary);
+            text-shadow: 1px 1px 10px #000;
         }
-        .contact-info {
-            flex-grow: 1;
-            padding: 10px 15px;
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+
+        .main-nav-box { background: #fff; color: #000; border-radius: 12px; padding: 20px; display: flex; align-items: center; text-decoration: none; transition: 0.3s; height: 100%; border: 2px solid transparent; }
+        .main-nav-box:hover { transform: translateY(-5px); border-color: var(--primary); color: #000; }
+        .nav-icon-side { background: #1a1a1a; color: var(--primary); padding: 15px; border-radius: 8px; margin-right: 15px; font-size: 24px; }
+        .nav-text-side { font-weight: 900; font-size: 1.2rem; text-transform: uppercase; }
+        
+        .info-card { background: #1a1a1a; border-radius: 15px; padding: 25px; border-left: 6px solid var(--secondary); height: 100%; text-align: left; }
+
+        #reviewContainer { height: 380px; overflow: hidden; position: relative; }
+        .review-box {
+            background: rgba(255,255,255,0.05); border-radius: 10px; padding: 15px; margin-bottom: 15px; border: 1px solid #333;
+            transition: all 0.5s ease; animation: slideUp 0.6s ease-out;
         }
-        .contact-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 20px;
-            font-size: 1.2rem;
-            color: white;
-            text-decoration: none;
-            transition: 0.3s;
-            border-left: 1px solid #495057;
-        }
-        .btn-call { background-color: #495057; }
-        .btn-call:hover { background-color: #6c757d; color: white; }
-        .btn-wp { background-color: #25D366; }
-        .btn-wp:hover { background-color: #128C7E; color: white; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .stars { color: var(--primary); font-size: 0.8rem; margin-bottom: 5px; }
+
+        footer { text-align: center; padding: 40px; background: #000; border-top: 2px solid #222; color: #555; }
     </style>
 </head>
 <body>
 
-<div class="main-wrapper">
-    <div class="container text-center">
-        <div class="mb-5">
-            <h1 class="logo-title">SAĞLAM MOTOR</h1>
-            <p class="lead text-light">Motosiklet Alım Satım & Finans Merkezi</p>
-        </div>
+<nav class="navbar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a href="#" class="logo">SAĞLAM<span>MOTOR</span></a>
+        <div class="fw-bold small text-secondary d-none d-md-block">📍 CEVATPAŞA, BAYRAMPAŞA</div>
+    </div>
+</nav>
 
-        <div class="row g-4 justify-content-center">
-            <div class="col-12 col-sm-6 col-md-3">
-                <a href="satis.html" class="menu-box">
-                    <i class="fa-solid fa-motorcycle menu-icon"></i>
-                    <div class="menu-text">MOTOR SAT</div>
-                </a>
-            </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <a href="https://saglammotor.sahibinden.com/" target="_blank" class="menu-box">
-                    <i class="fa-solid fa-tags menu-icon"></i>
-                    <div class="menu-text">MOTOR AL</div>
-                </a>
-            </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <div class="menu-box" data-bs-toggle="modal" data-bs-target="#secenekModal">
-                    <i class="fa-regular fa-credit-card menu-icon"></i>
-                    <div class="menu-text">KARTLA AL/SAT</div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <div class="menu-box" data-bs-toggle="modal" data-bs-target="#iletisimModal">
-                    <i class="fa-solid fa-phone menu-icon"></i>
-                    <div class="menu-text">İLETİŞİM</div>
-                </div>
-            </div>
-        </div>
+<section class="hero-slider">
+    <div class="slide-container" id="slides">
+        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1622185135505-2d795003994a?q=80&w=1600');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1558981403-c5f91cbba527?q=80&w=1500');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?q=80&w=1500');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=1500');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1609630875171-b132115ee448?q=80&w=1600');"></div>
+    </div>
+
+    <div class="hero-content">
+        <h1>MOTORUNU BİZE<br><span>SORMADAN SATMA</span></h1>
+        <p>SADECE ALIRKEN DEĞİL SATARKENDE YANINIZDAYIZ. SAĞLAM MOTOR AİLESİ OLARAK SİZLERE HİZMET VERMEKTEN ONUR DUYARIZ...</p>
+    </div>
+</section>
+
+<div class="container" style="margin-top: -50px; position: relative; z-index: 1000;">
+    <div class="row g-3">
+        <div class="col-md-3 col-6"><a href="satis.html" class="main-nav-box"><div class="nav-icon-side"><i class="fa-solid fa-motorcycle"></i></div><div class="nav-text-side">MOTOR SAT</div></a></div>
+        <div class="col-md-3 col-6"><a href="https://saglammotor.sahibinden.com/" target="_blank" class="main-nav-box"><div class="nav-icon-side"><i class="fa-solid fa-shop"></i></div><div class="nav-text-side">MOTOR AL</div></a></div>
+        <div class="col-md-3 col-6"><div class="main-nav-box" style="cursor:pointer" data-bs-toggle="modal" data-bs-target="#kartModal"><div class="nav-icon-side"><i class="fa-solid fa-credit-card"></i></div><div class="nav-text-side">KARTLA HESAPLA</div></div></div>
+        <div class="col-md-3 col-6"><div class="main-nav-box" style="cursor:pointer" data-bs-toggle="modal" data-bs-target="#iletisimModal"><div class="nav-icon-side"><i class="fa-solid fa-phone"></i></div><div class="nav-text-side">İLETİŞİM</div></div></div>
     </div>
 </div>
 
-<div class="modal fade" id="secenekModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header border-0">
-                <h5 class="modal-title fw-bold w-100 text-center text-danger">KREDİ KARTI İŞLEMİ</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+<section class="container py-5 mt-5">
+    <div class="row g-4 text-start">
+        <div class="col-md-6">
+            <div class="info-card">
+                <h3 class="fw-black mb-4"><i class="fa-solid fa-location-dot me-2 text-danger"></i> MAĞAZA BİLGİLERİ</h3>
+                <p class="fs-5"><b>ADRES:</b> Cevatpaşa, Papatya Sk. No:5/A, 34045 <br>Bayrampaşa / İSTANBUL</p>
+                <hr class="border-secondary">
+                <p class="fs-5"><b>ÇALIŞMA SAATLERİ:</b><br>Pazartesi - Cumartesi: 09:00 - 19:00<br><span class="text-danger">Pazar: Kapalı</span></p>
+                <a href="https://maps.app.goo.gl/vRteN91nx2oARm8z8" target="_blank" class="btn btn-danger w-100 py-3 mt-3 fw-bold">YOL TARİFİ AL</a>
             </div>
-            <div class="modal-body p-4">
-                <button class="btn btn-red w-100 py-3 mb-3 fs-5 fw-bold" data-bs-target="#motorAlModal" data-bs-toggle="modal" data-bs-dismiss="modal">
-                    <i class="fa-solid fa-cart-shopping"></i> KARTLA MOTOR AL
-                </button>
-                <button class="btn btn-outline-custom w-100 py-3 fs-5 fw-bold" data-bs-target="#motorSatModal" data-bs-toggle="modal" data-bs-dismiss="modal">
-                    <i class="fa-solid fa-handshake-simple"></i> KARTLA MOTOR SAT
-                </button>
-                <p class="text-center text-muted small mt-2">İşlem türünü seçerek hesaplama yapabilirsiniz.</p>
+        </div>
+        <div class="col-md-6">
+            <div class="info-card">
+                <h3 class="fw-black mb-4"><i class="fa-solid fa-users me-2 text-warning"></i> MÜŞTERİ YORUMLARI</h3>
+                <div id="reviewContainer"></div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<div class="modal fade" id="motorAlModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header border-0">
-                <h5 class="modal-title fw-bold text-danger text-center w-100">KARTLA MOTOR ALIM</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                
-                <div class="mb-3">
-                    <label class="form-label text-light">Almayı Düşündüğünüz Motosikletin Fiyatı (TL)</label>
-                    <input type="text" id="motorFiyati" class="form-control bg-dark text-white border-secondary fs-4 text-center" placeholder="Örn: 300.000" oninput="noktaKoy(this)">
-                </div>
+<div class="modal fade" id="kartModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header border-0 text-center"><h5 class="modal-title fw-black text-warning w-100">HESAPLA</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body p-4"><input type="text" id="fiAl" class="form-control bg-dark text-white mb-3" placeholder="Fiyat (TL)" oninput="n(this)"><select id="vAl" class="form-select bg-dark text-white mb-3"><option value="1.05">Tek Çekim (%5)</option><option value="1.18">6 Taksit (%18)</option><option value="1.36">12 Taksit (%36)</option></select><button onclick="hesap()" class="btn btn-warning w-100 py-3 fw-black text-dark">HESAPLA</button><div id="sonuc" class="mt-3 p-3 bg-white text-dark rounded d-none fw-bold"></div></div></div></div></div>
+<div class="modal fade" id="iletisimModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header border-0 text-center"><h5 class="modal-title fw-black text-danger w-100">İLETİŞİM</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body p-4 text-center"><h5>İsmail Sağlam</h5><p class="fs-4">0546 183 99 86</p><hr><h5>Yakup Sağlam</h5><p class="fs-4">0507 519 54 40</p></div></div></div></div>
 
-                <div class="mb-3">
-                    <label class="form-label text-light">Vermeyi Düşündüğünüz Peşinat Miktarı (TL)<br><span class="text-warning fw-bold small">(Peşinat zorunlu değildir)</span></label>
-                    <input type="text" id="pesinatMiktari" class="form-control bg-dark text-white border-secondary fs-4 text-center" placeholder="Örn: 125.000" oninput="noktaKoy(this)">
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label text-light">Kalan Tutara Düşündüğünüz Taksit Sayısı</label>
-                    <select id="alimVade" class="form-select bg-dark text-white border-secondary">
-                        <option value="1.05" selected>Tek Çekim (%5 Vade Farkı)</option> 
-                        <option value="1.10">2 Taksit (%10 Vade Farkı)</option>
-                        <option value="1.12">3 Taksit (%12 Vade Farkı)</option>
-                        <option value="1.14">4 Taksit (%14 Vade Farkı)</option>
-                        <option value="1.16">5 Taksit (%16 Vade Farkı)</option>
-                        <option value="1.18">6 Taksit (%18 Vade Farkı)</option>
-                        <option value="1.21">7 Taksit (%21 Vade Farkı)</option>
-                        <option value="1.24">8 Taksit (%24 Vade Farkı)</option>
-                        <option value="1.27">9 Taksit (%27 Vade Farkı)</option>
-                        <option value="1.30">10 Taksit (%30 Vade Farkı)</option>
-                        <option value="1.33">11 Taksit (%33 Vade Farkı)</option>
-                        <option value="1.36">12 Taksit (%36 Vade Farkı)</option>
-                    </select>
-                </div>
-
-                <button onclick="pesinatliHesapla()" class="btn btn-red w-100 py-2 fs-5 mb-3">HESAPLA</button>
-                
-                <div id="alimSonuc" class="d-none text-start mb-3 fis-ekrani">
-                    <div class="fis-yazi mb-1">KARTTAN ÇEKİLECEK TUTAR: <span id="kartCekimSonuc" class="float-end">0 TL</span></div>
-                    <div class="fis-yazi mb-1">PEŞİNAT MİKTARI: <span id="pesinatSonuc" class="float-end" style="color:#000!important;">0 TL</span></div>
-                    <hr class="border-dark my-2" style="border-top: 2px solid #000; opacity: 1;">
-                    <div class="fis-yazi mt-2">TOPLAM MİKTAR: <span id="toplamMaliyetSonuc" class="float-end" style="color:#000!important;">0 TL</span></div>
-                </div>
-
-                <div id="hizliIletisimAl" class="contact-action-box d-none mb-3 text-center">
-                    <h6 class="fw-bold text-success mb-3"><i class="fa-solid fa-bolt text-warning"></i> HIZLICA İŞLEMLERE BAŞLAMAK İÇİN İLETİŞİME GEÇİN:</h6>
-                    
-                    <div class="contact-row">
-                        <div class="contact-info"><div class="fw-bold">İsmail Sağlam</div><small class="text-muted">0546 183 99 86</small></div>
-                        <a href="tel:+905461839986" class="contact-btn btn-call"><i class="fa-solid fa-phone"></i></a>
-                        <a href="https://wa.me/905461839986" target="_blank" class="contact-btn btn-wp"><i class="fa-brands fa-whatsapp"></i></a>
-                    </div>
-                    
-                    <div class="contact-row">
-                        <div class="contact-info"><div class="fw-bold">Yakup Sağlam</div><small class="text-muted">0507 519 54 40</small></div>
-                        <a href="tel:+905075195440" class="contact-btn btn-call"><i class="fa-solid fa-phone"></i></a>
-                        <a href="https://wa.me/905075195440" target="_blank" class="contact-btn btn-wp"><i class="fa-brands fa-whatsapp"></i></a>
-                    </div>
-
-                    <div class="contact-row mb-0">
-                        <div class="contact-info"><div class="fw-bold">Mehmet Sağlam</div><small class="text-muted">0545 249 41 78</small></div>
-                        <a href="tel:+905452494178" class="contact-btn btn-call"><i class="fa-solid fa-phone"></i></a>
-                        <a href="https://wa.me/905452494178" target="_blank" class="contact-btn btn-wp"><i class="fa-brands fa-whatsapp"></i></a>
-                    </div>
-                </div>
-
-                <button class="btn btn-sm btn-link text-white w-100 text-decoration-none" data-bs-target="#secenekModal" data-bs-toggle="modal" data-bs-dismiss="modal">← Geri Dön</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="motorSatModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-danger">
-            <div class="modal-header border-0">
-                <h5 class="modal-title fw-bold text-danger text-center w-100">KARTLA MOTOR SATIŞ</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div class="alert alert-danger bg-dark border-danger text-light small mb-4 shadow-sm">
-                    <i class="fa-solid fa-shield-halved text-danger me-2"></i>
-                    Motorunu satıyorsun ve alıcı kredi kartı mı kullanmak istiyor? Endişelenme! 
-                    <strong>SAĞLAM MOTOR SADECE ALIRKEN DEĞİL, SATARKEN DE YANINDA!</strong> 
-                    Alıcı kartla ödesin, sen paranı nakit al.
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label text-light">Alıcının Çektireceği Tutar (TL)</label>
-                    <input type="text" id="satisTutar" class="form-control bg-dark text-white border-secondary fs-4 text-center" placeholder="Örn: 100.000" oninput="noktaKoy(this)">
-                </div>
-                
-                <div class="mb-3">
-                    <label class="form-label text-light">Taksit Seçeneği</label>
-                    <select id="satisVade" class="form-select bg-dark text-white border-secondary">
-                        <option value="1.08" selected>Tek Çekim (%8 Vade Farkı)</option>
-                        <option value="1.13">2 Taksit (%13 Vade Farkı)</option>
-                        <option value="1.15">3 Taksit (%15 Vade Farkı)</option>
-                        <option value="1.17">4 Taksit (%17 Vade Farkı)</option>
-                        <option value="1.19">5 Taksit (%19 Vade Farkı)</option>
-                        <option value="1.21">6 Taksit (%21 Vade Farkı)</option>
-                        <option value="1.23">7 Taksit (%23 Vade Farkı)</option>
-                        <option value="1.28">8 Taksit (%28 Vade Farkı)</option>
-                        <option value="1.30">9 Taksit (%30 Vade Farkı)</option>
-                        <option value="1.33">10 Taksit (%33 Vade Farkı)</option>
-                        <option value="1.36">11 Taksit (%36 Vade Farkı)</option>
-                        <option value="1.39">12 Taksit (%39 Vade Farkı)</option>
-                    </select>
-                </div>
-                
-                <button onclick="duzHesapla('satisToplam', 'satisTutar', 'satisVade', 'satisSonuc', 'hizliIletisimSat')" class="btn btn-red w-100 py-2 fs-5 mb-3">HESAPLA</button>
-                
-                <div id="satisSonuc" class="d-none text-center mb-3 fis-ekrani">
-                    <div class="fis-yazi mb-1">ALICININ KARTINDAN ÇEKİLECEK: <br><br><span id="satisToplam">0 TL</span></div>
-                </div>
-
-                <div id="hizliIletisimSat" class="contact-action-box d-none mb-3 text-center">
-                    <h6 class="fw-bold text-success mb-3"><i class="fa-solid fa-bolt text-warning"></i> HIZLICA İŞLEMLERE BAŞLAMAK İÇİN İLETİŞİME GEÇİN:</h6>
-                    
-                    <div class="contact-row">
-                        <div class="contact-info"><div class="fw-bold">İsmail Sağlam</div><small class="text-muted">0546 183 99 86</small></div>
-                        <a href="tel:+905461839986" class="contact-btn btn-call"><i class="fa-solid fa-phone"></i></a>
-                        <a href="https://wa.me/905461839986" target="_blank" class="contact-btn btn-wp"><i class="fa-brands fa-whatsapp"></i></a>
-                    </div>
-                    
-                    <div class="contact-row">
-                        <div class="contact-info"><div class="fw-bold">Yakup Sağlam</div><small class="text-muted">0507 519 54 40</small></div>
-                        <a href="tel:+905075195440" class="contact-btn btn-call"><i class="fa-solid fa-phone"></i></a>
-                        <a href="https://wa.me/905075195440" target="_blank" class="contact-btn btn-wp"><i class="fa-brands fa-whatsapp"></i></a>
-                    </div>
-
-                    <div class="contact-row mb-0">
-                        <div class="contact-info"><div class="fw-bold">Mehmet Sağlam</div><small class="text-muted">0545 249 41 78</small></div>
-                        <a href="tel:+905452494178" class="contact-btn btn-call"><i class="fa-solid fa-phone"></i></a>
-                        <a href="https://wa.me/905452494178" target="_blank" class="contact-btn btn-wp"><i class="fa-brands fa-whatsapp"></i></a>
-                    </div>
-                </div>
-
-                <button class="btn btn-sm btn-link text-white w-100 text-decoration-none" data-bs-target="#secenekModal" data-bs-toggle="modal" data-bs-dismiss="modal">← Geri Dön</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="iletisimModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content text-center">
-            <div class="modal-header border-0 pt-4">
-                <h5 class="modal-title fw-bold w-100 text-danger fs-4">SAĞLAM MOTOR EKİBİ</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <a href="https://instagram.com/saglammotorbayrampasa" target="_blank" class="btn btn-outline-danger w-100 mb-3 py-2 fs-5">
-                    <i class="fa-brands fa-instagram"></i> @saglammotorbayrampasa
-                </a>
-                
-                <div class="contact-row">
-                    <div class="contact-info"><div class="fw-bold">İsmail Sağlam</div><small class="text-muted">0546 183 99 86</small></div>
-                    <a href="tel:+905461839986" class="contact-btn btn-call"><i class="fa-solid fa-phone"></i></a>
-                    <a href="https://wa.me/905461839986" target="_blank" class="contact-btn btn-wp"><i class="fa-brands fa-whatsapp"></i></a>
-                </div>
-                
-                <div class="contact-row">
-                    <div class="contact-info"><div class="fw-bold">Yakup Sağlam</div><small class="text-muted">0507 519 54 40</small></div>
-                    <a href="tel:+905075195440" class="contact-btn btn-call"><i class="fa-solid fa-phone"></i></a>
-                    <a href="https://wa.me/905075195440" target="_blank" class="contact-btn btn-wp"><i class="fa-brands fa-whatsapp"></i></a>
-                </div>
-
-                <div class="contact-row mb-3">
-                    <div class="contact-info"><div class="fw-bold">Mehmet Sağlam</div><small class="text-muted">0545 249 41 78</small></div>
-                    <a href="tel:+905452494178" class="contact-btn btn-call"><i class="fa-solid fa-phone"></i></a>
-                    <a href="https://wa.me/905452494178" target="_blank" class="contact-btn btn-wp"><i class="fa-brands fa-whatsapp"></i></a>
-                </div>
-
-                <a href="mailto:yakupsaglam47@gmail.com" class="btn btn-outline-light w-100 py-3 text-decoration-none">
-                    <i class="fa-solid fa-envelope"></i> yakupsaglam47@gmail.com
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
+<footer><p>© 2026 | Cevatpaşa, Bayrampaşa, İstanbul</p></footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    function noktaKoy(input) {
-        let d = input.value.replace(/\D/g, "");
-        if (d !== "") input.value = new Intl.NumberFormat('tr-TR').format(d);
-        else input.value = "";
+    let current = 0;
+    const slides = document.querySelectorAll('.slide');
+    function next() {
+        let prev = current;
+        current = (current + 1) % slides.length;
+        slides[current].style.zIndex = 20; slides[current].style.opacity = 1;
+        slides[prev].style.zIndex = 10;
+        setTimeout(() => { slides[prev].style.opacity = 0; slides[prev].style.zIndex = 1; }, 500);
     }
+    setInterval(next, 4000);
 
-    function duzHesapla(spanId, inputId, selectId, alertId, contactBoxId) {
-        let tStr = document.getElementById(inputId).value.replace(/\./g, "");
-        let t = parseInt(tStr) || 0;
-        let v = parseFloat(document.getElementById(selectId).value);
-        if(t > 0) {
-            let res = t * v;
-            document.getElementById(spanId).innerText = res.toLocaleString('tr-TR', { maximumFractionDigits: 0 }) + " TL";
-            document.getElementById(alertId).classList.remove('d-none');
-            document.getElementById(contactBoxId).classList.remove('d-none');
-        }
+    const names = ["Serkan V.", "Emre K.", "Murat T.", "Caner A.", "Selim Y.", "Ahmet H.", "Burak D.", "Yasin G.", "Okan F.", "Mert S.", "Görkem B.", "Batuhan Ç.", "Erdi K.", "Cihan U.", "Uğur E."];
+    const reviews = ["Motorumu değerinde nakit aldılar, dürüst esnaf.", "Taksit seçenekleri çok iyi, Yakup beye teşekkürler.", "Bayrampaşa'da tek geçerim, güvenilir ticaret.", "İsmail bey çok yardımcı oldu, işlemler jet hızıyla bitti.", "Honda'mı satarken hiç zorlanmadım, anında ödeme aldım.", "Mağaza pırıl pırıl, ilgi alaka 10 numara.", "Kredi kartı ile motor aldım, vade farkları piyasaya göre çok iyi.", "Güvenin adresi Sağlam Motor, her şey şeffaf ve mertçe.", "Hiç düşünmeden motorunuzu getirin, öldürmüyorlar fiyatı."];
+    const container = document.getElementById('reviewContainer');
+    function createReview() {
+        const randomName = names[Math.floor(Math.random() * names.length)];
+        const randomText = reviews[Math.floor(Math.random() * reviews.length)];
+        const box = document.createElement('div'); box.className = 'review-box';
+        box.innerHTML = `<div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="mb-1 small">"${randomText}"</p><small class="text-warning fw-bold">- ${randomName}</small>`;
+        container.prepend(box); if (container.children.length > 3) container.removeChild(container.lastChild);
     }
+    for(let i=0; i<3; i++) createReview();
+    setInterval(createReview, 3500);
 
-    function pesinatliHesapla() {
-        let fiyatStr = document.getElementById('motorFiyati').value.replace(/\./g, "");
-        let pesinatStr = document.getElementById('pesinatMiktari').value.replace(/\./g, "");
-        
-        let fiyat = parseInt(fiyatStr) || 0;
-        let pesinat = parseInt(pesinatStr) || 0;
-        let v = parseFloat(document.getElementById('alimVade').value);
-
-        if(fiyat > 0) {
-            if(pesinat >= fiyat) {
-                alert("Peşinat miktarı, motor fiyatından büyük veya eşit olamaz!");
-                return;
-            }
-
-            let kalanTutar = fiyat - pesinat; 
-            let kartCekim = kalanTutar * v; 
-            let genelToplam = kartCekim + pesinat; 
-
-            document.getElementById('kartCekimSonuc').innerText = kartCekim.toLocaleString('tr-TR', { maximumFractionDigits: 0 }) + " TL";
-            document.getElementById('pesinatSonuc').innerText = pesinat.toLocaleString('tr-TR', { maximumFractionDigits: 0 }) + " TL";
-            document.getElementById('toplamMaliyetSonuc').innerText = genelToplam.toLocaleString('tr-TR', { maximumFractionDigits: 0 }) + " TL";
-            
-            document.getElementById('alimSonuc').classList.remove('d-none');
-            document.getElementById('hizliIletisimAl').classList.remove('d-none');
-        }
+    function n(i){ let v=i.value.replace(/\D/g,""); i.value=v===""?"":new Intl.NumberFormat('tr-TR').format(v); }
+    function p(v){ return parseInt(v.replace(/\./g,""))||0; }
+    function hesap(){
+        let f=p(document.getElementById('fiAl').value), v=parseFloat(document.getElementById('vAl').value);
+        if(f>0){ document.getElementById('sonuc').innerHTML=`ÇEKİLECEK: ${(Math.round(f*v)).toLocaleString('tr-TR')} TL`; document.getElementById('sonuc').classList.remove('d-none'); }
     }
-
-    function modalTemizle(modalId) {
-        const modal = document.getElementById(modalId);
-        if(!modal) return;
-        
-        modal.addEventListener('hidden.bs.modal', function () {
-            const inputs = modal.querySelectorAll('input[type="text"]');
-            inputs.forEach(input => input.value = '');
-            
-            const selects = modal.querySelectorAll('select');
-            selects.forEach(select => select.selectedIndex = 0);
-
-            const fisEkrani = modal.querySelectorAll('.fis-ekrani');
-            fisEkrani.forEach(fis => fis.classList.add('d-none'));
-
-            const iletisimKutusu = modal.querySelectorAll('.contact-action-box');
-            iletisimKutusu.forEach(kutu => kutu.classList.add('d-none'));
-        });
-    }
-
-    modalTemizle('motorAlModal');
-    modalTemizle('motorSatModal');
 </script>
 </body>
 </html>
